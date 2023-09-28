@@ -3,31 +3,28 @@ from bs4 import BeautifulSoup
 from fpdf import FPDF
 from urllib.parse import urlparse
 from play_audio import play_audio, text_to_audio
+
+
 def scrape_paragraphs(url):
     # Send a request to the URL and get the HTML content
     response = requests.get(url)
     if response.status_code != 200:
         print(f"Error: Unable to retrieve content from {url}")
         return []
-
     # Parse the HTML content
     soup = BeautifulSoup(response.content, 'html.parser')
-
     # Find all <p> tags
     paragraphs = soup.find_all(['p', 'li'])
-
-    # Extract the text content from the <p> tags
+    # Extract the text content from the tags
     paragraph_texts = [p.get_text() for p in paragraphs]
-
     return paragraph_texts
+
 
 def extract_domain_name(url):
     # Parse the URL
     parsed_url = urlparse(url)
-
     # Extract the domain name
     domain_name = parsed_url.netloc.split('.')[1]
-
     return domain_name
 
 
@@ -47,8 +44,7 @@ def generate_pdf(url_to_scrape, file_name):
     #return pdf
     pdf_file_path = f'{file_name}.pdf'
     pdf.output(pdf_file_path)
-
-    print(pdf_file_path)
+    #print(pdf_file_path)
     return pdf_file_path
 
 
